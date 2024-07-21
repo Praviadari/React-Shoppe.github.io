@@ -1,56 +1,66 @@
 import React from 'react'
 import './Header.css'
 import SearchIcon from '@mui/icons-material/Search';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 function header() {
   return (
     <>
-    <section className='header-top'>
-      <div className="header-top1">
-        <div className='header-container'>
-          <div className="wrapper flexitem">
-            <div className="left">
-              <ul className="flexitem main-links">
-                <li><a href="#">+91 99667 37466</a></li>
-                <li><a href="">Giftshoppe711@gmail.com</a></li>
-                <li><a href="">My Orders</a></li>
-                <li><a href="">Track your Order</a></li>
-                <li><a href="">Welcome</a></li>
-              </ul> 
-            </div>
-            <div className="right">
+    <div class="flex justify-end h-auto py-4 bg-[#e3e6f3] grid-cols-2 divide-x shadow-xl shadow-black opacity-100">
+      <ul class="flex items-center">
+        <li>
+          <a
+            href="/orders.js"
+            class="text-sm text-sky-700  hover:underline decoration-2  px-2 py-1 rounded-md hover:text-[#088178] font-semibold"
+            >My Orders</a>
+        </li>
+        <li>
+          <a
+            href="/track.js"
+            class="text-sm text-sky-700  hover:underline decoration-2  px-2 py-1 rounded-md hover:text-[#088178] font-semibold"
+            >Track your Order</a>
+        </li>
+        <li>
+          <p class="cursor-pointer">
+            <span class="material-icons"> account_circle </span>
+          </p>
+          <ul id="opne-dropdown" class="hidden">
+            <li>
+              <a href="contact.js" class="text-sm text-sky-700">+91 99667 37466</a>
+            </li>
+            <li>
+              <a href="contact.js" class="text-sm text-sky-700"
+                >Giftshoppe711@gmail.com</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="flex">
+        <li class="">
+           <li>
+              <a href="currency.js">ID₹ <span class="icon-small"><i class="fas fa-chevron-down"></i></span></a>
               <ul>
-                <li className="flexitem main-links">
-                  <li><a href="#">ID₹ <span className="icon-small"><i class="fas fa-chevron-down"></i></span></a>
-                    <ul>
-                      <li className="current"><a href="#">IDR</a></li>
-                      <li><a href="#">USD</a></li>
-                      <li><a href="#">EURO</a></li>
-                      <li><a href="#">GBP</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">English</a><span class="icon-small"><i class="fas fa-chevron-down"></i></span>
-                    <ul>
-                      <li className="current"><a href="#">English</a></li>
-                      <li><a href="#">Telugu</a></li>
-                      <li><a href="#">Hindi</a></li>
-                      <li><a href="#">Tamil</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="https://www.instagram.com/giftshoppe2021/?igshid=ZDdkNTZiNTM%3D"><i class="fab fa-instagram"></i></a></li>
-                  <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                  <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                </li>
+                <li class="current"><a href="idr.js">IDR</a></li>
+                <li><a href="usd.js">USD</a></li>
+                <li><a href="euro.js">EURO</a></li>
+                <li><a href="gbp.js">GBP</a></li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </section>
+            </li>
+            <li><a href="index.js">English</a><span class="icon-small"><i class="fas fa-chevron-down"></i></span>
+              <ul>
+                <li class="current"><a href="english">English</a></li>
+                <li><a href="telugu.js">Telugu</a></li>
+                <li><a href="hindi.js">Hindi</a></li>
+                <li><a href="tamil.js">Tamil</a></li>
+              </ul>
+            </li>
+        </li>
+      </ul>
+    </div>
     <div className='header'>
-        <a href="#"><img className='logo' src="/img/logo.jpg"  alt="" width="80" height="80" />
+        <a href="index.js"><img className='logo' src="/img/logo.jpg"  alt="" width="80" height="80" />
         </a>
     <div className='header-search'>
         <input className='header-searchInput' type='text' />
@@ -77,7 +87,7 @@ function header() {
               <div className="cart-total">₹0.00</div>
             </div>
           </li>
-          <a href="#" id="close"><i class="far fa-times"></i></a>
+          <a href="close.js" id="close"><i class="far fa-times"></i></a>
         </ul>
       </div>
         <div id="mobile">
@@ -86,7 +96,7 @@ function header() {
         </div>
     </div>
     </>
-  )
+  );
 }
 
 export default header

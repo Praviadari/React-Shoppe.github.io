@@ -1,3 +1,4 @@
+
 *{
     margin: 0;
     padding: 0;
@@ -15,8 +16,12 @@
   font-family: "Spartan", sans-serif;
 }
 
-html {
+html,
+body {
   scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 /* Global Styles */
@@ -79,10 +84,6 @@ button.white {
   outline: none;
   transition: 0.2s;
 }
-body {
-  width: 100%;
-}
-
 body{
     position: relative;
     width: 100%;
@@ -92,7 +93,7 @@ body{
     background-position: center;
     font-family: '"Spartan"', sans-serif;
 }
-.header-container {
+.header-top1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -182,6 +183,65 @@ header li > a{
     height: 22px !important;
     background-color: #088178;
 } 
+.header__logo {
+    width: 100px;
+    object-fit: contain;
+    margin: 0 20px;
+    margin-top: 18px;
+}
+  
+.header__search {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    border-radius: 24px;
+}
+  
+.header__searchInput {
+    height: 12px;
+    padding: 10px;
+    border: none;
+    width: 100%;
+}
+  
+.header__searchIcon {
+    padding: 5px;
+    height: 22px !important;
+    background-color: #cd9042;
+}
+  
+.header__optionLineOne {
+    font-size: 10px;
+}
+  
+.header__optionLineTwo {
+    font-size: 13px;
+    font-weight: 800;
+}
+  
+.header__optionBasket {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+  
+.header__basketCount {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+  
+.header__nav {
+    display: flex;
+    justify-content: space-evenly;
+}
+  
+.header__option {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: white;
+}
 #navbar {
     display: flex;
     align-items: center;
@@ -980,6 +1040,9 @@ border-radius: 15px;
 box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.06);
 padding: 20px;
 overflow-y: scroll;
+display: flex;
+align-items: center;
+justify-content: space-between;
 }
 .container::-webkit-scrollbar{
 display: none;
