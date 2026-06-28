@@ -2,7 +2,7 @@
 
 **Based on:** Audit reports `01`–`05` in `docs/`  
 **Created:** June 28, 2026  
-**Status:** Phase 5 complete — Phase 6 next
+**Status:** Phase 12 complete
 
 ### New `src/` layout (Phase 1–3)
 
@@ -75,8 +75,9 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [x] `ComingSoonPage` for planned routes (account, checkout, etc.)
 - [x] `CartContext` + `/cart` page wired to Header, ProductCard, CustomGiftBuilder
 - [x] GitHub Actions CI (test + build)
-- [ ] Flatten nested git repo / consolidate root vs gift-shoppe
-- [ ] Remove committed `build/` artifacts from disk
+- [x] Root `README.md` pointing to `gift-shoppe/`
+- [ ] Flatten nested git repo / consolidate root vs gift-shoppe (manual if nested `.git` exists)
+- [x] `build/` in `.gitignore` (not committed)
 
 ## Phase 1 — Architecture (Week 3–4) ✅
 
@@ -98,8 +99,9 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [x] `/order/:orderId` — order confirmation page
 - [x] `orderService` — localStorage orders (+ optional Firestore when auth exists)
 - [x] Custom build adds line items to cart (BuildPage)
-- [ ] Razorpay payment integration (deferred to Phase 3+)
-- [ ] Server-side price validation for custom builds (requires Cloud Functions)
+- [x] Razorpay checkout integration (client-side; set `REACT_APP_RAZORPAY_KEY_ID`)
+- [x] Server-side payment signature verification via Cloud Functions
+- [x] Server-side cart and custom build price validation via Cloud Functions
 
 ## Phase 3 — Auth & accounts (Week 9–10) ✅
 
@@ -113,8 +115,10 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [x] Orders linked to `userId` when authenticated; `getOrdersForUser` queries Firestore
 - [x] Checkout pre-fills delivery details from saved profile
 - [x] Firestore rules updated for `users/{userId}/wishlist/{productId}`
-- [ ] Deploy Firestore rules to production Firebase project
-- [ ] OAuth providers (Google, Apple) — future enhancement
+- [x] Firestore rules for `inquiries` collection + `firebase.json` deploy config
+- [ ] Deploy Firestore rules to production Firebase project (`npm run deploy:rules`)
+- [x] Google sign-in via Firebase Auth popup
+- [ ] OAuth providers (Apple) — future enhancement
 
 ## Phase 4 — UX, A11y & performance (Week 11–13) ✅
 
@@ -131,8 +135,10 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [x] Duplicate Google Fonts `@import` removed from `index.css`
 - [x] Web Vitals logged in development
 - [x] Web manifest updated with app name
-- [ ] Compress product images / WebP conversion (asset pipeline)
-- [ ] Self-host hero promo image (remove Unsplash dependency)
+- [x] Self-host hero promo image (local product asset, no Unsplash)
+- [x] WebP image pipeline — `generate-webp.js` + `<picture>` in `ProductImage`
+- [x] LCP preload for first featured product on Home
+- [x] `fetchpriority="high"` on above-the-fold product cards
 
 ## Phase 5 — SEO & growth (Week 14–16) ✅
 
@@ -144,16 +150,105 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [x] Collections editorial content + category product grids
 - [x] About page expanded with values section
 - [x] Private flows (cart, checkout, account) marked `noindex`
-- [ ] Prerender/SSR for crawlers that do not execute JavaScript
-- [ ] Per-route OG images for all products (dynamic image generation)
+- [x] Static HTML prerender for public routes + product pages (`scripts/prerender-static.js`)
+- [x] Per-product OG images via prerender + existing `SeoHead` on product detail
+- [ ] Dynamic OG image generation service
 
-## Phase 6 — Quality & DevOps (ongoing)
+## Phase 6 — Quality & DevOps (ongoing) ✅
 
-- Rewrite Cypress, coverage targets, Sentry
+- [x] Cypress installed with `cypress/support` helpers
+- [x] E2E specs rewritten for real commerce flows (`commerce`, `edge`, `security`)
+- [x] `cy:ci` script + GitHub Actions E2E job (serve build + Cypress)
+- [x] Jest coverage thresholds for `src/utils/` and `orderService`
+- [x] New unit tests: `formatPrice`, `orderService`
+- [x] `setupTests.js` for shared test setup
+- [x] Optional Sentry hook via `REACT_APP_SENTRY_DSN` + `ErrorBoundary` reporting (install `@sentry/react` for full SDK)
+- [x] CI uploads `lcov.info` coverage artifact
+- [x] Cypress + axe-core accessibility checks (`cypress/e2e/a11y.cy.js`)
+- [x] CI a11y job on core routes
+- [ ] Raise global coverage toward 70% target
 
-## Phase 7 — Premium differentiators (Week 17+)
+## Phase 7 — Premium differentiators (Week 17+) ✅
 
-- Gift concierge, scheduled delivery, corporate gifting, admin dashboard
+- [x] `/concierge` — gift recommendation request form with `inquiryService`
+- [x] `/corporate` — bulk corporate gifting inquiry form
+- [x] Scheduled delivery date on checkout + order confirmation
+- [x] `/admin` dashboard — orders, concierge, and corporate inquiries (admin email allowlist)
+- [x] `AdminRoute` + `REACT_APP_ADMIN_EMAILS` env config
+- [x] Footer and home page links to premium services
+- [x] Sitemap entries for `/concierge` and `/corporate`
+- [ ] Gift concierge live chat / CRM integration
+- [ ] Multi-address corporate fulfillment workflow
+- [ ] Server-backed admin with role-based Firebase custom claims
+
+## Phase 8 — Payments & support (Week 18+) ✅
+
+- [x] `paymentService` — Razorpay Checkout.js loader + payment modal
+- [x] Checkout flow — pay via Razorpay when key is configured; simulated orders otherwise
+- [x] Order payment metadata (`paymentStatus`, `paymentId`, `paymentProvider`)
+- [x] `/faq` — frequently asked questions
+- [x] `/shipping` — shipping rates, timelines, returns policy
+- [x] `/contact` — support contact form via `inquiryService`
+- [x] `/track-order` — order lookup by reference (supports `?id=ORD-...`)
+- [x] `/privacy` and `/terms` — legal content pages
+- [x] Google OAuth sign-in on login and signup pages
+- [x] Sitemap entries for new public support pages
+- [x] Client-side Razorpay checkout when Cloud Functions are disabled
+- [ ] Live support chat integration
+
+## Phase 10 — Cloud Functions backend ✅
+
+- [x] `functions/` — Firebase Cloud Functions (Node 20, `asia-south1`)
+- [x] `validateCartPricing` — server-side catalog + custom build price checks
+- [x] `createRazorpayOrder` — Razorpay order creation with secret key
+- [x] `verifyRazorpayPayment` — HMAC signature verification
+- [x] `src/utils/customBuildPricing.js` — shared pricing logic (Build page + validation)
+- [x] `src/utils/cartValidation.js` — client-side fallback validation
+- [x] `scripts/generate-catalog-prices.js` — sync catalog prices to `functions/data/`
+- [x] `functionsService.js` — callable wrappers + `REACT_APP_USE_CLOUD_FUNCTIONS` flag
+- [x] Checkout validates cart before payment; server Razorpay flow when functions enabled
+- [x] `npm run deploy:functions` + `npm run sync:catalog-prices`
+- [ ] Deploy functions to production Firebase project
+- [ ] Firebase Functions emulator in CI
+
+## Phase 9 — Discoverability & platform hardening ✅
+
+- [x] `/search` — client-side catalog search with `?q=` URL param
+- [x] `searchProducts` utility + unit tests
+- [x] `/support` — support hub linking FAQ, contact, track, concierge, corporate
+- [x] `/careers`, `/press`, `/sustainability` — company content pages
+- [x] All footer and header nav links now resolve to real pages (zero coming-soon stubs)
+- [x] `EmptyState` `secondaryTo` link support
+- [x] Hero promo uses self-hosted product image (`/img/Products/f3.jpg`)
+- [x] `firebase.json` + `npm run deploy:rules` for Firestore rules deployment
+- [x] Firestore rules for `inquiries` writes
+- [x] Root repository `README.md`
+- [x] Site-wide search analytics (localStorage + admin view)
+
+## Phase 11 — Performance & accessibility quality ✅
+
+- [x] `scripts/generate-webp.js` — JPEG → WebP conversion via `sharp` (runs on build)
+- [x] `imageSources.js` — WebP path resolution + public URL helpers
+- [x] `ProductImage` — `<picture>` with WebP source, `sizes`, `fetchpriority`
+- [x] Home page LCP preload via `react-helmet-async`
+- [x] Priority loading for first two featured products
+- [x] `cypress-axe` + `a11y.cy.js` — WCAG 2.x checks on core routes
+- [x] CI runs accessibility spec with Cypress E2E job
+- [x] Unit tests: `imageSources`, `ProductImage`, `functionsService`
+- [x] Lighthouse CI budget enforcement (`lighthouserc.js`)
+- [ ] Visual regression testing
+
+## Phase 12 — SEO prerender & quality gates ✅
+
+- [x] `scripts/prerender-static.js` — post-build static HTML for crawlers (meta, JSON-LD, noscript content)
+- [x] Prerenders static pages + all product `/shop/:slug` routes
+- [x] `searchAnalytics` service — local search term tracking on `/search`
+- [x] Admin dashboard shows popular search terms
+- [x] Lighthouse CI (`lighthouserc.js`) with performance, a11y, SEO budgets
+- [x] CI runs Lighthouse after production build
+- [x] Unit tests for `searchAnalytics`
+- [ ] Full SSR framework migration (Vite/React Router SSR)
+- [ ] Search analytics sync to Firestore
 
 ---
 
