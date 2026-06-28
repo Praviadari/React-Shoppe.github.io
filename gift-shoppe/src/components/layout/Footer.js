@@ -17,6 +17,8 @@ function Footer() {
             <Link to="/collections">Collections</Link>
             <Link to="/shop">All Products</Link>
             <Link to="/build">Custom Gifts</Link>
+            <Link to="/concierge">Gift Concierge</Link>
+            <Link to="/corporate">Corporate Gifting</Link>
             <Link to="/shop">New Arrivals</Link>
           </div>
 

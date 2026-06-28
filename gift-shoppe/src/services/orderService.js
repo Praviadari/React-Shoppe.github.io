@@ -36,7 +36,13 @@ function sortOrdersNewestFirst(orders) {
   );
 }
 
-export async function createOrder({ items, customer, giftMessage, userId = null }) {
+export async function createOrder({
+  items,
+  customer,
+  giftMessage,
+  scheduledDeliveryDate = null,
+  userId = null,
+}) {
   const orderId = generateOrderId();
   const subtotal = computeOrderTotal(items);
   const shipping = subtotal >= 2000 ? 0 : 99;
@@ -47,6 +53,7 @@ export async function createOrder({ items, customer, giftMessage, userId = null 
     items,
     customer,
     giftMessage: giftMessage || '',
+    scheduledDeliveryDate: scheduledDeliveryDate || null,
     subtotal,
     shipping,
     total,

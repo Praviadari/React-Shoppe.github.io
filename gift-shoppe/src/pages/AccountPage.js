@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { getOrdersForUser } from '../services/orderService';
 import { updateUserProfile } from '../services/userService';
 import { formatPrice } from '../utils/formatPrice';
+import { isAdminUser } from '../utils/adminAccess';
 import './AccountPage.css';
 
 const EMPTY_PROFILE = {
@@ -89,6 +90,9 @@ function AccountPage() {
       <h1>Your account</h1>
       <p className="account-page__greeting">
         Signed in as {user?.email}
+        {isAdminUser(user) && (
+          <> · <Link to="/admin">Admin dashboard</Link></>
+        )}
       </p>
 
       <div className="account-page__layout">

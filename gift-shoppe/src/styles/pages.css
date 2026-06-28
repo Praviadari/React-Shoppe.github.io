@@ -143,6 +143,19 @@
   line-height: 1.6;
 }
 
+.trust-badge__link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trust-badge__link:hover {
+  opacity: 0.8;
+}
+
 /* Product Section */
 .product-section {
   padding: 8rem 2rem;

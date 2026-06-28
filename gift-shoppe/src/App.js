@@ -8,6 +8,7 @@ import Footer from './components/layout/Footer';
 import SkipLink from './components/ui/SkipLink';
 import PageLoader from './components/ui/PageLoader';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminRoute from './components/auth/AdminRoute';
 import {
   COMING_SOON_PATHS,
   HomePage,
@@ -23,6 +24,9 @@ import {
   SignUpPage,
   AccountPage,
   WishlistPage,
+  ConciergePage,
+  CorporatePage,
+  AdminPage,
   ComingSoonPage,
   NotFoundPage,
 } from './app/routes';
@@ -59,6 +63,16 @@ function App() {
                       )}
                     />
                     <Route path="/wishlist" element={<WishlistPage />} />
+                    <Route path="/concierge" element={<ConciergePage />} />
+                    <Route path="/corporate" element={<CorporatePage />} />
+                    <Route
+                      path="/admin"
+                      element={(
+                        <AdminRoute>
+                          <AdminPage />
+                        </AdminRoute>
+                      )}
+                    />
                     {COMING_SOON_PATHS.map((path) => (
                       <Route key={path} path={path} element={<ComingSoonPage />} />
                     ))}

@@ -9,6 +9,8 @@ const STATIC_ROUTES = [
   { loc: '/shop', changefreq: 'daily', priority: '0.9' },
   { loc: '/collections', changefreq: 'weekly', priority: '0.9' },
   { loc: '/build', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/concierge', changefreq: 'monthly', priority: '0.7' },
+  { loc: '/corporate', changefreq: 'monthly', priority: '0.7' },
   { loc: '/about', changefreq: 'monthly', priority: '0.6' },
 ];
 

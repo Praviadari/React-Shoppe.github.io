@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import SeoHead from '../components/seo/SeoHead';
 import { getOrderById } from '../services/orderService';
 import { formatPrice } from '../utils/formatPrice';
+import { formatDeliveryDate } from '../utils/deliveryDate';
 import './OrderConfirmationPage.css';
 
 function OrderConfirmationPage() {
@@ -29,6 +30,9 @@ function OrderConfirmationPage() {
         <p className="order-confirmation__message">
           Your gift order totalling {formatPrice(order.total)} has been received.
           A confirmation will be sent to {order.customer.email}.
+          {order.scheduledDeliveryDate && (
+            <> Scheduled delivery: <strong>{formatDeliveryDate(order.scheduledDeliveryDate)}</strong>.</>
+          )}
         </p>
 
         <div className="order-confirmation__summary">

@@ -81,6 +81,12 @@
   margin-bottom: 0.5rem;
 }
 
+.checkout-form__hint {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
 .checkout-form__submit {
   margin-top: 0.5rem;
   padding: 1rem;

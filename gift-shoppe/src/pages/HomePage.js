@@ -76,6 +76,7 @@ function HomePage() {
           </div>
           <h2 className="trust-badge__title">24/7 Concierge</h2>
           <p>Round-the-clock support for your gifting needs.</p>
+          <Link to="/concierge" className="trust-badge__link">Request recommendations</Link>
         </div>
         <div className="trust-badge">
           <div className="trust-badge-icon">

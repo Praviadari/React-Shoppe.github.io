@@ -28,5 +28,8 @@ export const LoginPage = lazy(() => import('../pages/LoginPage'));
 export const SignUpPage = lazy(() => import('../pages/SignUpPage'));
 export const AccountPage = lazy(() => import('../pages/AccountPage'));
 export const WishlistPage = lazy(() => import('../pages/WishlistPage'));
+export const ConciergePage = lazy(() => import('../pages/ConciergePage'));
+export const CorporatePage = lazy(() => import('../pages/CorporatePage'));
+export const AdminPage = lazy(() => import('../pages/AdminPage'));
 export const ComingSoonPage = lazy(() => import('../pages/ComingSoonPage'));
 export const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));

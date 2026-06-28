@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import '@testing-library/jest-dom';
 import { AuthProvider } from '../../context/AuthContext';
 import { CartProvider } from '../../context/CartContext';
@@ -9,13 +10,15 @@ import ProductCard from './ProductCard';
 
 const renderWithCart = (ui) =>
   render(
-    <MemoryRouter>
-      <AuthProvider>
-        <WishlistProvider>
-          <CartProvider>{ui}</CartProvider>
-        </WishlistProvider>
-      </AuthProvider>
-    </MemoryRouter>
+    <HelmetProvider>
+      <MemoryRouter>
+        <AuthProvider>
+          <WishlistProvider>
+            <CartProvider>{ui}</CartProvider>
+          </WishlistProvider>
+        </AuthProvider>
+      </MemoryRouter>
+    </HelmetProvider>
   );
 
 describe('ProductCard Functional Tests', () => {

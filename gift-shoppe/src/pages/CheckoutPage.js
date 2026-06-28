@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { createOrder } from '../services/orderService';
 import { formatPrice } from '../utils/formatPrice';
+import { getMaxDeliveryDate, getMinDeliveryDate, isValidDeliveryDate } from '../utils/deliveryDate';
 import './CheckoutPage.css';
 
 const EMPTY_FORM = {
@@ -15,6 +16,7 @@ const EMPTY_FORM = {
   city: '',
   pincode: '',
   giftMessage: '',
+  scheduledDeliveryDate: '',
 };
 
 function CheckoutPage() {
@@ -71,6 +73,9 @@ function CheckoutPage() {
     if (!form.pincode.trim() || form.pincode.trim().length < 6) {
       next.pincode = 'Valid PIN code is required';
     }
+    if (form.scheduledDeliveryDate && !isValidDeliveryDate(form.scheduledDeliveryDate)) {
+      next.scheduledDeliveryDate = `Choose a date between ${getMinDeliveryDate()} and ${getMaxDeliveryDate()}`;
+    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -92,6 +97,7 @@ function CheckoutPage() {
           pincode: form.pincode.trim(),
         },
         giftMessage: form.giftMessage.trim(),
+        scheduledDeliveryDate: form.scheduledDeliveryDate || null,
         userId: user?.uid || null,
       });
       clearCart();
@@ -153,6 +159,23 @@ function CheckoutPage() {
           <label>
             Gift message (optional)
             <textarea value={form.giftMessage} onChange={updateField('giftMessage')} rows={2} maxLength={200} />
+          </label>
+
+          <label>
+            Preferred delivery date (optional)
+            <input
+              type="date"
+              value={form.scheduledDeliveryDate}
+              onChange={updateField('scheduledDeliveryDate')}
+              min={getMinDeliveryDate()}
+              max={getMaxDeliveryDate()}
+            />
+            <span className="checkout-form__hint">
+              Schedule delivery at least two days ahead. Leave blank for standard shipping.
+            </span>
+            {errors.scheduledDeliveryDate && (
+              <span className="field-error">{errors.scheduledDeliveryDate}</span>
+            )}
           </label>
 
           <button type="submit" className="checkout-form__submit" disabled={submitting}>
