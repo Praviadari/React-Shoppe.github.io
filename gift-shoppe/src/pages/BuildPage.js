@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
+import SeoHead from '../components/seo/SeoHead';
 import { useCart } from '../context/CartContext';
 import './BuildPage.css';
 
@@ -76,6 +77,11 @@ function BuildPage() {
 
   return (
     <section className="custom-builder-section">
+      <SeoHead
+        title="Custom Gift Builder"
+        description="Design a bespoke GiftShoppe piece — choose your base item, premium materials, engraving, and typography."
+        path="/build"
+      />
       <div className="builder-container">
         <div className="builder-header">
           <h1>Bespoke Gift Studio</h1>
@@ -102,6 +108,9 @@ function BuildPage() {
             <div className="preview-summary">
               <h2>Live Preview</h2>
               <p>Your custom configuration updates in real-time.</p>
+              <p className="sr-only" aria-live="polite" aria-atomic="true">
+                {`${BASE_ITEM_LABELS[baseItem]}, ${MATERIAL_LABELS[material]}, ${engravingName ? `engraving ${engravingName}` : 'no engraving'}, estimated price ₹${totalPrice}`}
+              </p>
             </div>
           </div>
 

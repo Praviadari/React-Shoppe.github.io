@@ -1,14 +1,27 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
+import { AuthProvider } from '../../context/AuthContext';
 import { CartProvider } from '../../context/CartContext';
+import { WishlistProvider } from '../../context/WishlistContext';
 import ProductCard from './ProductCard';
 
-const renderWithCart = (ui) => render(<CartProvider>{ui}</CartProvider>);
+const renderWithCart = (ui) =>
+  render(
+    <MemoryRouter>
+      <AuthProvider>
+        <WishlistProvider>
+          <CartProvider>{ui}</CartProvider>
+        </WishlistProvider>
+      </AuthProvider>
+    </MemoryRouter>
+  );
 
 describe('ProductCard Functional Tests', () => {
   const mockProduct = {
     id: 1,
+    slug: 'test-gift-item-1',
     name: 'Test Gift Item',
     price: 49.99,
     category: 'Gifts',

@@ -19,6 +19,11 @@ service cloud.firestore {
       allow read, update, delete: if isOwner(userId);
       // Anyone can create an account if they are authenticated via Firebase Auth
       allow create: if isAuthenticated() && request.auth.uid == userId;
+
+      // Wishlist subcollection — per-user saved products
+      match /wishlist/{productId} {
+        allow read, write: if isOwner(userId);
+      }
     }
 
     // 2. Products Collection

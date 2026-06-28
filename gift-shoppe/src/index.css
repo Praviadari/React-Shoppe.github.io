@@ -2,15 +2,15 @@
   margin: 0;
 }
 @tailwind base;
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind components;
 @tailwind utilities;
+@import './styles/a11y.css';
 
 :root {
   --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-text-primary: #111111;
-  --color-text-secondary: #888888;
+  --color-text-secondary: #595959;
   --color-border: #f2f2f2;
   --color-accent: #000000;
   --color-accent-hover: #333333;

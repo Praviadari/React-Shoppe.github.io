@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SeoHead from '../components/seo/SeoHead';
 import { useCart } from '../context/CartContext';
+import EmptyState from '../components/ui/EmptyState';
+import ProductImage from '../components/ui/ProductImage';
 import './CartPage.css';
 
 function CartPage() {
@@ -9,22 +12,27 @@ function CartPage() {
   if (items.length === 0) {
     return (
       <div className="cart-page cart-page--empty">
-        <h1>Your bag</h1>
-        <p className="cart-page__empty-message">Your bag is empty — discover something special.</p>
-        <Link to="/shop" className="cart-page__cta">Continue shopping</Link>
+        <EmptyState
+          icon="shopping_bag"
+          title="Your bag is empty"
+          message="Discover something special from our curated collections."
+          actionLabel="Continue shopping"
+          actionTo="/shop"
+        />
       </div>
     );
   }
 
   return (
     <div className="cart-page">
+      <SeoHead title="Your bag" path="/cart" noindex />
       <h1>Your bag ({itemCount} {itemCount === 1 ? 'item' : 'items'})</h1>
       <div className="cart-page__layout">
         <ul className="cart-page__items">
           {items.map((item) => (
             <li key={item.id} className="cart-item">
               {item.image && (
-                <img src={item.image} alt="" className="cart-item__image" />
+                <ProductImage src={item.image} alt="" className="cart-item__image" width={96} height={120} />
               )}
               <div className="cart-item__details">
                 <h2 className="cart-item__name">{item.name}</h2>

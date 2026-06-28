@@ -2,27 +2,32 @@
 
 **Based on:** Audit reports `01`–`05` in `docs/`  
 **Created:** June 28, 2026  
-**Status:** Phase 2 complete — Phase 3 next
+**Status:** Phase 5 complete — Phase 6 next
 
-### New `src/` layout (Phase 1–2)
+### New `src/` layout (Phase 1–3)
 
 ```
 src/
-├── app/routes.js          # Lazy route exports + coming-soon paths
+├── app/routes.js
 ├── components/
-│   ├── layout/            # Header, Footer, ErrorBoundary
-│   ├── product/           # ProductCard + tests
-│   └── ui/                # PageLoader
-├── context/CartContext.js
-├── hooks/useProducts.js   # Product catalog hook
-├── pages/                 # Home, Shop, ProductDetail, Checkout, Order, …
+│   ├── auth/              # ProtectedRoute
+│   ├── layout/
+│   ├── product/
+│   └── ui/
+├── context/
+│   ├── AuthContext.js
+│   ├── CartContext.js
+│   └── WishlistContext.js
+├── hooks/useProducts.js
+├── pages/                 # + Login, SignUp, Account, Wishlist
 ├── services/
-│   ├── firebase.js        # Env-based Firebase config
-│   ├── firebaseApp.js     # Firebase app + Firestore init
-│   ├── productService.js  # Firestore + static fallback
-│   └── orderService.js    # Guest orders (localStorage + optional Firestore)
-├── utils/                 # productHelpers, formatPrice
-└── styles/                # pages.css, animations.css
+│   ├── authService.js
+│   ├── userService.js
+│   ├── wishlistService.js
+│   ├── productService.js
+│   └── orderService.js
+├── utils/                 # productHelpers, authErrors, formatPrice
+└── styles/                # pages.css, auth.css, animations.css
 ```
 
 ---
@@ -96,17 +101,51 @@ GiftShoppe should feel like a **luxury gifting concierge online** — curated ca
 - [ ] Razorpay payment integration (deferred to Phase 3+)
 - [ ] Server-side price validation for custom builds (requires Cloud Functions)
 
-## Phase 3 — Auth & accounts (Week 9–10)
+## Phase 3 — Auth & accounts (Week 9–10) ✅
 
-- Firebase Auth, account dashboard, order history, wishlist
+- [x] Firebase Auth — email/password sign-up and sign-in via `authService`
+- [x] `AuthContext` + `AuthProvider` with profile loading
+- [x] `/login`, `/signup` pages with env-aware unavailable state
+- [x] `/account` dashboard (protected) — profile, delivery defaults, order history
+- [x] `userService` — Firestore user profiles
+- [x] `WishlistContext` — localStorage for guests, Firestore sync when signed in
+- [x] `/wishlist` page + heart toggle on ProductCard and ProductDetailPage
+- [x] Orders linked to `userId` when authenticated; `getOrdersForUser` queries Firestore
+- [x] Checkout pre-fills delivery details from saved profile
+- [x] Firestore rules updated for `users/{userId}/wishlist/{productId}`
+- [ ] Deploy Firestore rules to production Firebase project
+- [ ] OAuth providers (Google, Apple) — future enhancement
 
-## Phase 4 — UX, A11y & performance (Week 11–13)
+## Phase 4 — UX, A11y & performance (Week 11–13) ✅
 
-- WCAG AA fixes, image optimization, skeletons, empty states
+- [x] Skip-to-main-content link + global `:focus-visible` styles
+- [x] WCAG AA text contrast — `--color-text-secondary` darkened to `#595959`
+- [x] Mobile nav — backdrop, Escape to close, focus trap, body scroll lock
+- [x] Cart + wishlist visible on mobile; non-functional currency chevron removed
+- [x] `ProductGridSkeleton` + progressive loading (hero visible while products load)
+- [x] `EmptyState` component — cart, wishlist, shop filters, catalog errors
+- [x] `ProductImage` — lazy load, `decoding="async"`, error placeholder
+- [x] `useProducts` reload for error recovery
+- [x] Build page live preview announced via `aria-live`
+- [x] `prefers-reduced-motion` support expanded
+- [x] Duplicate Google Fonts `@import` removed from `index.css`
+- [x] Web Vitals logged in development
+- [x] Web manifest updated with app name
+- [ ] Compress product images / WebP conversion (asset pipeline)
+- [ ] Self-host hero promo image (remove Unsplash dependency)
 
-## Phase 5 — SEO & growth (Week 14–16)
+## Phase 5 — SEO & growth (Week 14–16) ✅
 
-- Meta tags, JSON-LD, sitemap, collections content
+- [x] `react-helmet-async` + `SeoHead` component for per-route meta tags
+- [x] Open Graph + Twitter Card tags on all public pages
+- [x] Canonical URLs via `REACT_APP_SITE_URL`
+- [x] JSON-LD: Organization, WebSite, Product, BreadcrumbList, ItemList
+- [x] `scripts/generate-sitemap.js` — builds `public/sitemap.xml` + `robots.txt` on prebuild
+- [x] Collections editorial content + category product grids
+- [x] About page expanded with values section
+- [x] Private flows (cart, checkout, account) marked `noindex`
+- [ ] Prerender/SSR for crawlers that do not execute JavaScript
+- [ ] Per-route OG images for all products (dynamic image generation)
 
 ## Phase 6 — Quality & DevOps (ongoing)
 

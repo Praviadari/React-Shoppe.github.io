@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import { useWishlist } from '../../context/WishlistContext';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import './Header.css';
 
 function navClass({ isActive }) {
@@ -9,9 +12,36 @@ function navClass({ isActive }) {
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const hamburgerRef = useRef(null);
   const { subtotal, itemCount } = useCart();
+  const { user } = useAuth();
+  const { itemCount: wishlistCount } = useWishlist();
+
+  useFocusTrap(isMenuOpen, navRef);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        hamburgerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const accountPath = user ? '/account' : '/login';
+  const accountLabel = user ? 'Your account' : 'Sign in';
 
   return (
     <header className="header-container">
@@ -25,11 +55,20 @@ function Header() {
             <span className="material-icons" aria-hidden="true" style={{ fontSize: '14px' }}>support_agent</span>
             24/7 Support
           </Link>
-          <div className="header-top-link">
-            INR (₹) <span className="material-icons" aria-hidden="true" style={{ fontSize: '14px' }}>expand_more</span>
-          </div>
+          <span className="header-top-link header-top-link--static">
+            INR (₹)
+          </span>
         </div>
       </div>
+
+      {isMenuOpen && (
+        <button
+          type="button"
+          className="nav-backdrop"
+          aria-label="Close menu"
+          onClick={closeMenu}
+        />
+      )}
 
       <div className="header-main">
         <Link to="/" className="header-brand" onClick={closeMenu}>
@@ -37,6 +76,7 @@ function Header() {
         </Link>
 
         <button
+          ref={hamburgerRef}
           type="button"
           className="hamburger"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -47,7 +87,11 @@ function Header() {
           <span className="material-icons" aria-hidden="true">{isMenuOpen ? 'close' : 'menu'}</span>
         </button>
 
-        <nav id="primary-navigation" className={`header-nav ${isMenuOpen ? 'active' : ''}`}>
+        <nav
+          id="primary-navigation"
+          ref={navRef}
+          className={`header-nav ${isMenuOpen ? 'active' : ''}`}
+        >
           <NavLink to="/" end className={navClass} onClick={closeMenu}>Home</NavLink>
           <NavLink to="/shop" className={navClass} onClick={closeMenu}>Shop</NavLink>
           <NavLink to="/build" className={navClass} onClick={closeMenu}>Custom Gifts</NavLink>
@@ -56,21 +100,24 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <Link to="/search" className="action-icon" aria-label="Search">
+          <Link to="/search" className="action-icon action-icon--desktop-only" aria-label="Search">
             <span className="material-icons" aria-hidden="true">search</span>
           </Link>
-          <Link to="/account" className="action-icon" aria-label="Account">
-            <span className="material-icons" aria-hidden="true">person_outline</span>
+          <Link to={accountPath} className="action-icon action-icon--desktop-only" aria-label={accountLabel}>
+            <span className="material-icons" aria-hidden="true">{user ? 'person' : 'person_outline'}</span>
           </Link>
-          <Link to="/wishlist" className="action-icon" aria-label="Wishlist">
-            <span className="material-icons" aria-hidden="true">favorite_border</span>
+          <Link to="/wishlist" className="action-icon" aria-label={`Wishlist, ${wishlistCount} items`}>
+            <span className="material-icons" aria-hidden="true">
+              {wishlistCount > 0 ? 'favorite' : 'favorite_border'}
+            </span>
+            {wishlistCount > 0 && <span className="cart-count">{wishlistCount}</span>}
           </Link>
           <div className="cart-container">
             <Link to="/cart" className="action-icon" aria-label={`Shopping bag, ${itemCount} items`}>
               <span className="material-icons" aria-hidden="true">shopping_bag</span>
               {itemCount > 0 && <span className="cart-count">{itemCount}</span>}
             </Link>
-            <span className="cart-total">₹{subtotal.toFixed(2)}</span>
+            <span className="cart-total" aria-live="polite">₹{subtotal.toFixed(2)}</span>
           </div>
         </div>
       </div>

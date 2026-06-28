@@ -1,8 +1,6 @@
 import { lazy } from 'react';
 
 export const COMING_SOON_PATHS = [
-  '/account',
-  '/wishlist',
   '/search',
   '/support',
   '/track-order',
@@ -26,5 +24,9 @@ export const AboutPage = lazy(() => import('../pages/AboutPage'));
 export const CartPage = lazy(() => import('../pages/CartPage'));
 export const CheckoutPage = lazy(() => import('../pages/CheckoutPage'));
 export const OrderConfirmationPage = lazy(() => import('../pages/OrderConfirmationPage'));
+export const LoginPage = lazy(() => import('../pages/LoginPage'));
+export const SignUpPage = lazy(() => import('../pages/SignUpPage'));
+export const AccountPage = lazy(() => import('../pages/AccountPage'));
+export const WishlistPage = lazy(() => import('../pages/WishlistPage'));
 export const ComingSoonPage = lazy(() => import('../pages/ComingSoonPage'));
 export const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));

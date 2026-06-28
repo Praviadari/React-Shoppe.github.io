@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import SeoHead from '../components/seo/SeoHead';
+import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { createOrder } from '../services/orderService';
 import { formatPrice } from '../utils/formatPrice';
@@ -17,10 +19,25 @@ const EMPTY_FORM = {
 
 function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (user || profile) {
+      setForm((prev) => ({
+        ...prev,
+        fullName: prev.fullName || profile?.displayName || user?.displayName || '',
+        email: prev.email || profile?.email || user?.email || '',
+        phone: prev.phone || profile?.phone || '',
+        address: prev.address || profile?.address || '',
+        city: prev.city || profile?.city || '',
+        pincode: prev.pincode || profile?.pincode || '',
+      }));
+    }
+  }, [user, profile]);
 
   const shipping = subtotal >= 2000 ? 0 : 99;
   const total = subtotal + shipping;
@@ -75,6 +92,7 @@ function CheckoutPage() {
           pincode: form.pincode.trim(),
         },
         giftMessage: form.giftMessage.trim(),
+        userId: user?.uid || null,
       });
       clearCart();
       navigate(`/order/${order.id}`, { replace: true });
@@ -88,6 +106,7 @@ function CheckoutPage() {
 
   return (
     <div className="checkout-page">
+      <SeoHead title="Checkout" path="/checkout" noindex />
       <h1>Checkout</h1>
       <div className="checkout-page__layout">
         <form className="checkout-form" onSubmit={handleSubmit} noValidate>

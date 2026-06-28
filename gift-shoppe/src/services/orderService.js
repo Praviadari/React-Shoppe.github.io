@@ -1,4 +1,10 @@
-import { addDoc, collection } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { getFirestoreDb } from './firebaseApp';
 
 const ORDERS_STORAGE_KEY = 'giftshoppe-orders';
@@ -24,7 +30,13 @@ function computeOrderTotal(items) {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
-export async function createOrder({ items, customer, giftMessage }) {
+function sortOrdersNewestFirst(orders) {
+  return [...orders].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+}
+
+export async function createOrder({ items, customer, giftMessage, userId = null }) {
   const orderId = generateOrderId();
   const subtotal = computeOrderTotal(items);
   const shipping = subtotal >= 2000 ? 0 : 99;
@@ -39,16 +51,14 @@ export async function createOrder({ items, customer, giftMessage }) {
     shipping,
     total,
     status: 'confirmed',
+    userId,
     createdAt: new Date().toISOString(),
   };
 
   const db = getFirestoreDb();
-  if (db) {
+  if (db && userId) {
     try {
-      await addDoc(collection(db, 'orders'), {
-        ...order,
-        userId: null,
-      });
+      await addDoc(collection(db, 'orders'), order);
     } catch (error) {
       console.warn('Could not persist order to Firestore; saved locally.', error);
     }
@@ -68,4 +78,30 @@ export function getOrderById(orderId) {
 
 export function getOrders() {
   return loadLocalOrders();
+}
+
+export async function getOrdersForUser(userId) {
+  const localOrders = loadLocalOrders().filter((order) => order.userId === userId);
+  const db = getFirestoreDb();
+
+  if (!db || !userId) {
+    return sortOrdersNewestFirst(localOrders);
+  }
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, 'orders'), where('userId', '==', userId))
+    );
+    const remoteOrders = snapshot.docs.map((docSnap) => docSnap.data());
+    const merged = new Map();
+
+    [...localOrders, ...remoteOrders].forEach((order) => {
+      merged.set(order.id, order);
+    });
+
+    return sortOrdersNewestFirst([...merged.values()]);
+  } catch (error) {
+    console.warn('Could not load orders from Firestore; using local orders.', error);
+    return sortOrdersNewestFirst(localOrders);
+  }
 }

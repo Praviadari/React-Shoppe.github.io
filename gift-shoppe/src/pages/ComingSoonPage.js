@@ -2,8 +2,6 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const PAGE_TITLES = {
-  '/account': 'Your Account',
-  '/wishlist': 'Wishlist',
   '/search': 'Search',
   '/support': '24/7 Support',
   '/track-order': 'Track Order',

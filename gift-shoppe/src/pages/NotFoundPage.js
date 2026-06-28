@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SeoHead from '../components/seo/SeoHead';
 
 function NotFoundPage() {
   return (
@@ -9,6 +10,7 @@ function NotFoundPage() {
       maxWidth: '600px',
       margin: '0 auto',
     }}>
+      <SeoHead title="Page not found" noindex />
       <p style={{
         color: 'var(--color-text-secondary)',
         letterSpacing: '0.2em',

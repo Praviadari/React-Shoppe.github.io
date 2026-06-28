@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 const CART_STORAGE_KEY = 'giftshoppe-cart';
 
@@ -36,15 +36,15 @@ export function CartProvider({ children }) {
     setItems((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const updateQuantity = (id, quantity) => {
+  const updateQuantity = useCallback((id, quantity) => {
     if (quantity < 1) {
-      removeItem(id);
+      setItems((prev) => prev.filter((i) => i.id !== id));
       return;
     }
     setItems((prev) =>
       prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     );
-  };
+  }, []);
 
   const clearCart = () => setItems([]);
 
@@ -68,7 +68,7 @@ export function CartProvider({ children }) {
       subtotal,
       itemCount,
     }),
-    [items, subtotal, itemCount]
+    [items, subtotal, itemCount, updateQuantity]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

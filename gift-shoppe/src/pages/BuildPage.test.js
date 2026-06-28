@@ -1,10 +1,16 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { HelmetProvider } from 'react-helmet-async';
 import '@testing-library/jest-dom';
 import { CartProvider } from '../context/CartContext';
 import BuildPage from './BuildPage';
 
-const renderWithCart = (ui) => render(<CartProvider>{ui}</CartProvider>);
+const renderWithCart = (ui) =>
+  render(
+    <HelmetProvider>
+      <CartProvider>{ui}</CartProvider>
+    </HelmetProvider>
+  );
 
 describe('BuildPage Security & Functional Tests', () => {
   it('SEC-001: Strips malicious XSS tags from Engraving input', () => {
@@ -17,8 +23,9 @@ describe('BuildPage Security & Functional Tests', () => {
 
     expect(input.value).toBe('scriptalertxssscriptJohn-Doe');
 
-    const livePreviewText = screen.queryByText(/scriptalert/i);
+    const livePreviewText = document.querySelector('.preview-engraving');
     expect(livePreviewText).toBeInTheDocument();
+    expect(livePreviewText).toHaveTextContent('scriptalertxssscriptJohn-Doe');
   });
 
   it('FUNC-002: Base Price calculation updates properly', () => {

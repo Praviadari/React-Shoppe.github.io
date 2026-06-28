@@ -93,12 +93,48 @@
   margin-bottom: 0.5rem;
 }
 
-.trust-badge h4 {
+.trust-badge h4,
+.trust-badge__title {
   font-weight: 500;
   color: var(--color-accent);
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.product-section--muted {
+  background-color: #fafafa;
+}
+
+.hero--promo {
+  height: 60vh;
+  min-height: 400px;
+}
+
+.hero-subtitle--light {
+  color: white;
+}
+
+.hero-title--promo {
+  font-size: 3.5rem;
+  color: white;
+}
+
+.hero-button--light {
+  background-color: white;
+  color: var(--color-accent);
+  border-color: white;
+}
+
+.hero-button--light:hover {
+  background-color: transparent;
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content {
+    animation: none;
+  }
 }
 
 .trust-badge p {

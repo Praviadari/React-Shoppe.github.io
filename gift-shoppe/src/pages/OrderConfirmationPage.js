@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import SeoHead from '../components/seo/SeoHead';
 import { getOrderById } from '../services/orderService';
 import { formatPrice } from '../utils/formatPrice';
 import './OrderConfirmationPage.css';
@@ -20,6 +21,7 @@ function OrderConfirmationPage() {
 
   return (
     <div className="order-confirmation">
+      <SeoHead title="Order confirmed" path={`/order/${orderId}`} noindex />
       <div className="order-confirmation__card" role="status">
         <p className="order-confirmation__eyebrow">Order confirmed</p>
         <h1>Thank you, {order.customer.fullName.split(' ')[0]}!</h1>

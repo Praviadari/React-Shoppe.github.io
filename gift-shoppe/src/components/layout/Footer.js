@@ -40,9 +40,9 @@ function Footer() {
 
       <div className="footer-bottom">
         <div className="footer-social">
-          <a href="#instagram" aria-label="Instagram"><i className="fab fa-instagram" aria-hidden="true" /></a>
-          <a href="#twitter" aria-label="Twitter"><i className="fab fa-twitter" aria-hidden="true" /></a>
-          <a href="#pinterest" aria-label="Pinterest"><i className="fab fa-pinterest" aria-hidden="true" /></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="GiftShoppe on Instagram"><i className="fab fa-instagram" aria-hidden="true" /></a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="GiftShoppe on Twitter"><i className="fab fa-twitter" aria-hidden="true" /></a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="GiftShoppe on Pinterest"><i className="fab fa-pinterest" aria-hidden="true" /></a>
         </div>
         <p className="copyright">&copy; {new Date().getFullYear()} GiftShoppe. All rights reserved.</p>
         <div className="footer-legal">

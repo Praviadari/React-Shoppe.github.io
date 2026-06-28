@@ -1,0 +1,144 @@
+.account-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 7rem 2rem 4rem;
+}
+
+.account-page h1 {
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.account-page__greeting {
+  color: var(--color-text-secondary);
+  margin-bottom: 2.5rem;
+}
+
+.account-page__layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.account-card {
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+  background: #fff;
+}
+
+.account-card h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  color: var(--color-accent);
+}
+
+.account-profile-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.account-profile-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.account-profile-form input,
+.account-profile-form textarea {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.account-profile-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.account-profile-form__message {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.account-profile-form__message--success {
+  color: #027a48;
+}
+
+.account-profile-form__message--error {
+  color: #b42318;
+}
+
+.account-profile-form__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.account-btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.account-btn--secondary {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.account-orders {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-order {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.account-order:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.account-order__meta {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.account-order__total {
+  font-weight: 500;
+}
+
+.account-empty {
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 640px) {
+  .account-profile-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .account-order {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

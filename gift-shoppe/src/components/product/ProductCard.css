@@ -24,6 +24,33 @@
   background-color: #f8f9fa;
 }
 
+.product-card__wishlist-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.product-card__wishlist-btn--active,
+.product-card__wishlist-btn:hover {
+  color: var(--color-accent);
+}
+
+.product-card__wishlist-btn .material-icons {
+  font-size: 1.1rem;
+}
+
 .product-image {
   width: 100%;
   height: 100%;
