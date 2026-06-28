@@ -1,19 +1,6 @@
 import { lazy } from 'react';
 
-export const COMING_SOON_PATHS = [
-  '/search',
-  '/support',
-  '/track-order',
-  '/track',
-  '/faq',
-  '/shipping',
-  '/contact',
-  '/privacy',
-  '/terms',
-  '/careers',
-  '/press',
-  '/sustainability',
-];
+export const COMING_SOON_PATHS = [];
 
 export const HomePage = lazy(() => import('../pages/HomePage'));
 export const ShopPage = lazy(() => import('../pages/ShopPage'));
@@ -31,5 +18,16 @@ export const WishlistPage = lazy(() => import('../pages/WishlistPage'));
 export const ConciergePage = lazy(() => import('../pages/ConciergePage'));
 export const CorporatePage = lazy(() => import('../pages/CorporatePage'));
 export const AdminPage = lazy(() => import('../pages/AdminPage'));
+export const FaqPage = lazy(() => import('../pages/FaqPage'));
+export const ShippingPage = lazy(() => import('../pages/ShippingPage'));
+export const ContactPage = lazy(() => import('../pages/ContactPage'));
+export const TrackOrderPage = lazy(() => import('../pages/TrackOrderPage'));
+export const PrivacyPage = lazy(() => import('../pages/PrivacyPage'));
+export const TermsPage = lazy(() => import('../pages/TermsPage'));
+export const SearchPage = lazy(() => import('../pages/SearchPage'));
+export const SupportPage = lazy(() => import('../pages/SupportPage'));
+export const CareersPage = lazy(() => import('../pages/CareersPage'));
+export const PressPage = lazy(() => import('../pages/PressPage'));
+export const SustainabilityPage = lazy(() => import('../pages/SustainabilityPage'));
 export const ComingSoonPage = lazy(() => import('../pages/ComingSoonPage'));
 export const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));

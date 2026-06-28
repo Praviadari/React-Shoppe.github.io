@@ -1,13 +1,15 @@
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut as firebaseSignOut,
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
 import { getAuthInstance } from './firebaseApp';
 import { isFirebaseConfigured } from './firebase';
-import { createUserProfile } from './userService';
+import { createUserProfile, getUserProfile } from './userService';
 
 export function isAuthAvailable() {
   return isFirebaseConfigured() && Boolean(getAuthInstance());
@@ -45,6 +47,26 @@ export async function signIn({ email, password }) {
     throw new Error('Firebase Auth is not configured.');
   }
   const credential = await signInWithEmailAndPassword(auth, email, password);
+  return credential.user;
+}
+
+export async function signInWithGoogle() {
+  const auth = getAuthInstance();
+  if (!auth) {
+    throw new Error('Firebase Auth is not configured.');
+  }
+
+  const provider = new GoogleAuthProvider();
+  const credential = await signInWithPopup(auth, provider);
+  const existingProfile = await getUserProfile(credential.user.uid);
+
+  if (!existingProfile) {
+    await createUserProfile(credential.user.uid, {
+      email: credential.user.email || '',
+      displayName: credential.user.displayName || '',
+    });
+  }
+
   return credential.user;
 }
 

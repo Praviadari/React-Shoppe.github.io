@@ -29,11 +29,17 @@ function OrderConfirmationPage() {
         <p className="order-confirmation__id">Order reference: <strong>{order.id}</strong></p>
         <p className="order-confirmation__message">
           Your gift order totalling {formatPrice(order.total)} has been received.
-          A confirmation will be sent to {order.customer.email}.
+          {order.paymentStatus === 'paid' && ' Payment confirmed.'}
+          {' '}A confirmation will be sent to {order.customer.email}.
           {order.scheduledDeliveryDate && (
             <> Scheduled delivery: <strong>{formatDeliveryDate(order.scheduledDeliveryDate)}</strong>.</>
           )}
         </p>
+        {order.paymentId && (
+          <p className="order-confirmation__payment">
+            Payment reference: <strong>{order.paymentId}</strong>
+          </p>
+        )}
 
         <div className="order-confirmation__summary">
           <h2>Items</h2>

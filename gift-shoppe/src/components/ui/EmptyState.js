@@ -9,6 +9,7 @@ function EmptyState({
   actionLabel,
   actionTo,
   secondaryLabel,
+  secondaryTo,
   onSecondaryAction,
   role = 'status',
 }) {
@@ -28,7 +29,12 @@ function EmptyState({
               {actionLabel}
             </Link>
           )}
-          {secondaryLabel && onSecondaryAction && (
+          {secondaryLabel && secondaryTo && (
+            <Link to={secondaryTo} className="empty-state__cta empty-state__cta--secondary">
+              {secondaryLabel}
+            </Link>
+          )}
+          {secondaryLabel && onSecondaryAction && !secondaryTo && (
             <button
               type="button"
               className="empty-state__cta empty-state__cta--secondary"

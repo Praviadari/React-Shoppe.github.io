@@ -42,6 +42,7 @@ export async function createOrder({
   giftMessage,
   scheduledDeliveryDate = null,
   userId = null,
+  payment = null,
 }) {
   const orderId = generateOrderId();
   const subtotal = computeOrderTotal(items);
@@ -58,6 +59,9 @@ export async function createOrder({
     shipping,
     total,
     status: 'confirmed',
+    paymentStatus: payment?.status || 'simulated',
+    paymentProvider: payment?.provider || null,
+    paymentId: payment?.paymentId || null,
     userId,
     createdAt: new Date().toISOString(),
   };

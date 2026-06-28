@@ -5,7 +5,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import ProductImage from '../ui/ProductImage';
 import './ProductCard.css';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, priority = false }) => {
   const [isAdded, setIsAdded] = useState(false);
   const { addItem } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -58,7 +58,12 @@ const ProductCard = ({ product }) => {
           <span className="material-icons" aria-hidden="true">{saved ? 'favorite' : 'favorite_border'}</span>
         </button>
         <Link to={productUrl} className="product-card__image-link">
-          <ProductImage src={product.image} alt={product.name} className="product-image" />
+          <ProductImage
+            src={product.image}
+            alt={product.name}
+            className="product-image"
+            eager={priority}
+          />
         </Link>
         <div className="product-overlay">
           <button

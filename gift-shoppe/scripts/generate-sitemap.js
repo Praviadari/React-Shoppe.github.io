@@ -11,6 +11,16 @@ const STATIC_ROUTES = [
   { loc: '/build', changefreq: 'monthly', priority: '0.8' },
   { loc: '/concierge', changefreq: 'monthly', priority: '0.7' },
   { loc: '/corporate', changefreq: 'monthly', priority: '0.7' },
+  { loc: '/faq', changefreq: 'monthly', priority: '0.6' },
+  { loc: '/shipping', changefreq: 'monthly', priority: '0.6' },
+  { loc: '/contact', changefreq: 'monthly', priority: '0.6' },
+  { loc: '/support', changefreq: 'monthly', priority: '0.6' },
+  { loc: '/search', changefreq: 'weekly', priority: '0.5' },
+  { loc: '/careers', changefreq: 'monthly', priority: '0.4' },
+  { loc: '/press', changefreq: 'monthly', priority: '0.4' },
+  { loc: '/sustainability', changefreq: 'monthly', priority: '0.5' },
+  { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
+  { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   { loc: '/about', changefreq: 'monthly', priority: '0.6' },
 ];
 

@@ -4,6 +4,14 @@ import SeoHead from '../components/seo/SeoHead';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { createOrder } from '../services/orderService';
+import {
+  finalizeRazorpayPayment,
+  initiateRazorpayPayment,
+  isRazorpayConfigured,
+  isServerPaymentsEnabled,
+} from '../services/paymentService';
+import { isCloudFunctionsEnabled, validateCartPricing } from '../services/functionsService';
+import { validateCartItems } from '../utils/cartValidation';
 import { formatPrice } from '../utils/formatPrice';
 import { getMaxDeliveryDate, getMinDeliveryDate, isValidDeliveryDate } from '../utils/deliveryDate';
 import './CheckoutPage.css';
@@ -85,26 +93,61 @@ function CheckoutPage() {
     if (!validate()) return;
 
     setSubmitting(true);
+    const customer = {
+      fullName: form.fullName.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      address: form.address.trim(),
+      city: form.city.trim(),
+      pincode: form.pincode.trim(),
+    };
+
     try {
+      const pricing = isCloudFunctionsEnabled()
+        ? await validateCartPricing(items)
+        : validateCartItems(items);
+
+      if (!pricing.valid) {
+        setErrors({ form: pricing.error || 'Your cart could not be validated. Please refresh and try again.' });
+        return;
+      }
+
+      const checkoutTotal = pricing.total;
+      let payment = null;
+
+      if (isRazorpayConfigured()) {
+        const orderReference = `PENDING-${Date.now()}`;
+        const paymentResponse = await initiateRazorpayPayment({
+          amount: checkoutTotal,
+          customer,
+          orderReference,
+          description: `GiftShoppe order (${items.length} item${items.length === 1 ? '' : 's'})`,
+        });
+        const finalized = await finalizeRazorpayPayment(paymentResponse);
+        payment = {
+          status: 'paid',
+          provider: 'razorpay',
+          paymentId: finalized.paymentId,
+          verified: finalized.verified,
+        };
+      }
+
       const order = await createOrder({
         items,
-        customer: {
-          fullName: form.fullName.trim(),
-          email: form.email.trim(),
-          phone: form.phone.trim(),
-          address: form.address.trim(),
-          city: form.city.trim(),
-          pincode: form.pincode.trim(),
-        },
+        customer,
         giftMessage: form.giftMessage.trim(),
         scheduledDeliveryDate: form.scheduledDeliveryDate || null,
         userId: user?.uid || null,
+        payment,
       });
       clearCart();
       navigate(`/order/${order.id}`, { replace: true });
     } catch (error) {
+      if (error.message === 'Payment cancelled') {
+        return;
+      }
       console.error('Checkout failed', error);
-      setErrors({ form: 'Something went wrong. Please try again.' });
+      setErrors({ form: error.message || 'Something went wrong. Please try again.' });
     } finally {
       setSubmitting(false);
     }
@@ -179,7 +222,11 @@ function CheckoutPage() {
           </label>
 
           <button type="submit" className="checkout-form__submit" disabled={submitting}>
-            {submitting ? 'Placing order…' : `Place order — ${formatPrice(total)}`}
+            {submitting
+              ? (isRazorpayConfigured() ? 'Processing payment…' : 'Placing order…')
+              : (isRazorpayConfigured()
+                ? `Pay ${formatPrice(total)}`
+                : `Place order — ${formatPrice(total)}`)}
           </button>
         </form>
 
@@ -206,7 +253,11 @@ function CheckoutPage() {
             <span>{formatPrice(total)}</span>
           </p>
           <p className="checkout-summary__note">
-            Payment integration (Razorpay) arrives in a future release. Orders are confirmed locally for now.
+            {isServerPaymentsEnabled()
+              ? 'Secure payment via Razorpay with server-side order creation and signature verification.'
+              : isRazorpayConfigured()
+                ? 'Secure payment powered by Razorpay. Enable Cloud Functions for full server verification.'
+                : 'Add REACT_APP_RAZORPAY_KEY_ID to enable live payments. Orders are confirmed locally for now.'}
           </p>
         </aside>
       </div>

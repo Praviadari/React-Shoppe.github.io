@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import SeoHead from '../components/seo/SeoHead';
 import { useAuth } from '../context/AuthContext';
+import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 import { getAuthErrorMessage } from '../utils/authErrors';
 import '../styles/auth.css';
 
 function SignUpPage() {
-  const { signUp, isAuthAvailable, user } = useAuth();
+  const { signUp, signInWithGoogle, isAuthAvailable, user } = useAuth();
 
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
@@ -92,6 +93,13 @@ function SignUpPage() {
           {submitting ? 'Creating account…' : 'Create account'}
         </button>
       </form>
+
+      {isAuthAvailable && (
+        <>
+          <p className="auth-divider">or</p>
+          <GoogleSignInButton onSignIn={signInWithGoogle} disabled={!isAuthAvailable} />
+        </>
+      )}
 
       <p className="auth-page__footer">
         Already have an account? <Link to="/login">Sign in</Link>

@@ -27,6 +27,17 @@ import {
   ConciergePage,
   CorporatePage,
   AdminPage,
+  FaqPage,
+  ShippingPage,
+  ContactPage,
+  TrackOrderPage,
+  PrivacyPage,
+  TermsPage,
+  SearchPage,
+  SupportPage,
+  CareersPage,
+  PressPage,
+  SustainabilityPage,
   ComingSoonPage,
   NotFoundPage,
 } from './app/routes';
@@ -73,6 +84,18 @@ function App() {
                         </AdminRoute>
                       )}
                     />
+                    <Route path="/faq" element={<FaqPage />} />
+                    <Route path="/shipping" element={<ShippingPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/track-order" element={<TrackOrderPage />} />
+                    <Route path="/track" element={<TrackOrderPage />} />
+                    <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/terms" element={<TermsPage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/support" element={<SupportPage />} />
+                    <Route path="/careers" element={<CareersPage />} />
+                    <Route path="/press" element={<PressPage />} />
+                    <Route path="/sustainability" element={<SustainabilityPage />} />
                     {COMING_SOON_PATHS.map((path) => (
                       <Route key={path} path={path} element={<ComingSoonPage />} />
                     ))}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import SeoHead from '../components/seo/SeoHead';
 import { useCart } from '../context/CartContext';
+import { calculateCustomBuildPrice } from '../utils/customBuildPricing';
 import './BuildPage.css';
 
 const BASE_ITEM_LABELS = {
@@ -27,27 +28,11 @@ function BuildPage() {
   const [showToast, setShowToast] = useState(false);
   const { addItem } = useCart();
 
-  const getBasePrice = () => {
-    switch (baseItem) {
-      case '3d-sphere': return 500;
-      case 'infinity-frame': return 600;
-      case 'mosaic-stand': return 700;
-      case 'premium-watch': return 1200;
-      default: return 500;
-    }
-  };
-
-  const getMaterialMultiplier = () => {
-    switch (material) {
-      case 'wood': return 1;
-      case 'acrylic': return 1.2;
-      case 'crystal': return 1.5;
-      case 'gold-plated': return 2.5;
-      default: return 1;
-    }
-  };
-
-  const totalPrice = Math.round(getBasePrice() * getMaterialMultiplier() + (engravingName ? 100 : 0));
+  const totalPrice = calculateCustomBuildPrice({
+    baseItem,
+    material,
+    engraving: engravingName,
+  });
 
   const handleAddToCart = () => {
     const buildId = `custom-${Date.now()}`;
@@ -59,7 +44,8 @@ function BuildPage() {
       quantity: 1,
       metadata: {
         baseItem,
-        material: MATERIAL_LABELS[material] || material,
+        material,
+        materialLabel: MATERIAL_LABELS[material] || material,
         engraving: engravingName || null,
         fontFamily,
         textColor,

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import SeoHead from '../components/seo/SeoHead';
 import { useAuth } from '../context/AuthContext';
+import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 import { getAuthErrorMessage } from '../utils/authErrors';
 import '../styles/auth.css';
 
 function LoginPage() {
-  const { signIn, isAuthAvailable, user } = useAuth();
+  const { signIn, signInWithGoogle, isAuthAvailable, user } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/account';
 
@@ -76,6 +77,13 @@ function LoginPage() {
           {submitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
+
+      {isAuthAvailable && (
+        <>
+          <p className="auth-divider">or</p>
+          <GoogleSignInButton onSignIn={signInWithGoogle} disabled={!isAuthAvailable} />
+        </>
+      )}
 
       <p className="auth-page__footer">
         New to GiftShoppe? <Link to="/signup">Create an account</Link>

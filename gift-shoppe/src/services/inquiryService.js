@@ -69,6 +69,19 @@ export async function submitCorporateInquiry(payload, userId = null) {
   return persistInquiry(inquiry);
 }
 
+export async function submitContactMessage(payload, userId = null) {
+  const inquiry = {
+    id: generateInquiryId(),
+    type: 'contact',
+    payload,
+    userId,
+    status: 'new',
+    createdAt: new Date().toISOString(),
+  };
+
+  return persistInquiry(inquiry);
+}
+
 export function getInquiries() {
   return sortNewestFirst(loadLocalInquiries());
 }

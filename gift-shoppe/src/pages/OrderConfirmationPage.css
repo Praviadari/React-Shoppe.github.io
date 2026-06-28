@@ -40,6 +40,12 @@
 .order-confirmation__message {
   color: var(--color-text-secondary);
   line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.order-confirmation__payment {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
   margin-bottom: 2rem;
 }
 

@@ -39,13 +39,18 @@ service cloud.firestore {
     // Users can only view or create orders attached to their own UID.
     match /orders/{orderId} {
       allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
-      // When creating an order, explicitly check that the payload's userId matches the token
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
-      // Editing an order from the client app is typically disabled to prevent tampering post-purchase
-      allow update, delete: if false; 
+      allow update, delete: if false;
     }
 
-    // 4. Cart Collection (If you store cart instances in Firestore instead of localStorage)
+    // 4. Inquiries — concierge, corporate, and contact form submissions
+    match /inquiries/{inquiryId} {
+      allow create: if request.resource.data.keys().hasAll(['type', 'payload', 'createdAt'])
+        && request.resource.data.type in ['concierge', 'corporate', 'contact'];
+      allow read, update, delete: if false;
+    }
+
+    // 5. Cart Collection (If you store cart instances in Firestore instead of localStorage)
     match /carts/{cartId} {
       allow read, write: if isOwner(cartId);
     }

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import '../styles/pages.css';
 import ProductCard from '../components/product/ProductCard';
 import ProductGridSkeleton from '../components/ui/ProductGridSkeleton';
@@ -8,6 +9,7 @@ import SeoHead from '../components/seo/SeoHead';
 import { DEFAULT_DESCRIPTION } from '../config/site';
 import { useProducts } from '../hooks/useProducts';
 import { buildOrganizationJsonLd, buildWebSiteJsonLd } from '../utils/seo';
+import { getProductImageSources } from '../utils/imageSources';
 
 function HomePage() {
   const { products, loading, error, reload } = useProducts();
@@ -21,6 +23,12 @@ function HomePage() {
     () => products.filter((p) => p.category === 'Items').slice(0, 8),
     [products]
   );
+
+  const lcpPreload = useMemo(() => {
+    const heroProduct = featured[0];
+    if (!heroProduct?.image) return null;
+    return getProductImageSources(heroProduct.image);
+  }, [featured]);
 
   if (error) {
     return (
@@ -45,6 +53,14 @@ function HomePage() {
         path="/"
         jsonLd={[buildOrganizationJsonLd(), buildWebSiteJsonLd()]}
       />
+      {lcpPreload && (
+        <Helmet>
+          {lcpPreload.hasWebp && (
+            <link rel="preload" as="image" href={lcpPreload.webp} type="image/webp" />
+          )}
+          <link rel="preload" as="image" href={lcpPreload.fallback} />
+        </Helmet>
+      )}
       <section className="hero">
         <div className="hero-content">
           <p className="hero-subtitle">The Global Experience</p>
@@ -102,8 +118,8 @@ function HomePage() {
           <ProductGridSkeleton count={8} />
         ) : (
           <div className="product-grid">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {featured.map((product, index) => (
+              <ProductCard key={product.id} product={product} priority={index < 2} />
             ))}
           </div>
         )}
@@ -126,10 +142,9 @@ function HomePage() {
       </section>
 
       <section
-        className="hero hero--promo"
+        className="hero hero--promo hero--promo-local"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(https://images.unsplash.com/photo-1549465220-1a8b9238cd28?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80)',
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${process.env.PUBLIC_URL}/img/Products/f3.jpg)`,
         }}
       >
         <div className="hero-content">

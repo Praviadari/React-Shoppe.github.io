@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { isAuthAvailable, signIn, signOut, signUp, subscribeToAuth } from '../services/authService';
+import { isAuthAvailable, signIn, signInWithGoogle, signOut, signUp, subscribeToAuth } from '../services/authService';
 import { getUserProfile } from '../services/userService';
 
 const AuthContext = createContext(null);
@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
       loading,
       isAuthAvailable: isAuthAvailable(),
       signIn,
+      signInWithGoogle,
       signUp,
       signOut,
       refreshProfile,

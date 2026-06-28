@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import SeoHead from '../components/seo/SeoHead';
 import { getInquiries } from '../services/inquiryService';
 import { getOrders } from '../services/orderService';
+import { getSearchAnalytics } from '../services/searchAnalytics';
 import { formatPrice } from '../utils/formatPrice';
 import { formatDeliveryDate } from '../utils/deliveryDate';
 import './AdminPage.css';
@@ -9,10 +10,12 @@ import './AdminPage.css';
 function AdminPage() {
   const orders = useMemo(() => getOrders(), []);
   const inquiries = useMemo(() => getInquiries(), []);
+  const searchTerms = useMemo(() => getSearchAnalytics(10), []);
 
   const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
   const conciergeCount = inquiries.filter((item) => item.type === 'concierge').length;
   const corporateCount = inquiries.filter((item) => item.type === 'corporate').length;
+  const contactCount = inquiries.filter((item) => item.type === 'contact').length;
 
   return (
     <div className="admin-page">
@@ -36,6 +39,10 @@ function AdminPage() {
         <div className="admin-stat">
           <p className="admin-stat__label">Corporate</p>
           <p className="admin-stat__value">{corporateCount}</p>
+        </div>
+        <div className="admin-stat">
+          <p className="admin-stat__label">Contact</p>
+          <p className="admin-stat__value">{contactCount}</p>
         </div>
       </div>
 
@@ -107,16 +114,46 @@ function AdminPage() {
                     <td>
                       {inquiry.type === 'corporate'
                         ? inquiry.payload.contactName
-                        : inquiry.payload.fullName}
+                        : inquiry.type === 'contact'
+                          ? inquiry.payload.fullName
+                          : inquiry.payload.fullName}
                       <br />
                       <small>{inquiry.payload.email}</small>
                     </td>
                     <td>
                       {inquiry.type === 'corporate'
                         ? `${inquiry.payload.companyName} · ${inquiry.payload.quantity}`
-                        : `${inquiry.payload.occasion}${inquiry.payload.budget ? ` · ${inquiry.payload.budget}` : ''}`}
+                        : inquiry.type === 'contact'
+                          ? inquiry.payload.subject
+                          : `${inquiry.payload.occasion}${inquiry.payload.budget ? ` · ${inquiry.payload.budget}` : ''}`}
                     </td>
                     <td>{new Date(inquiry.createdAt).toLocaleDateString('en-IN')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="admin-section" aria-labelledby="admin-search-heading">
+        <h2 id="admin-search-heading">Popular searches</h2>
+        {searchTerms.length === 0 ? (
+          <p className="admin-empty">No search queries recorded on this device yet.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Search term</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchTerms.map((entry) => (
+                  <tr key={entry.term}>
+                    <td>{entry.term}</td>
+                    <td>{entry.count}</td>
                   </tr>
                 ))}
               </tbody>
