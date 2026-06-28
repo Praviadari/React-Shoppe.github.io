@@ -1,0 +1,40 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .product-section-layout {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+
+  .shop-sidebar {
+    width: 100% !important;
+    position: static !important;
+    margin-bottom: 2rem;
+  }
+
+  .shop-sidebar ul {
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding-bottom: 1rem !important;
+  }
+
+  .shop-sidebar li {
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,218 @@
+.custom-builder-section {
+  padding: 6rem 2rem;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.builder-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.builder-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.builder-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.builder-header p {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+}
+
+.builder-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .builder-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Preview Canvas */
+.builder-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.preview-canvas {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.5s ease;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
+}
+
+.material-wood {
+  background: linear-gradient(135deg, #e6c28f, #c79a5c);
+  color: #5c3a21;
+}
+
+.material-acrylic {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #adb5bd;
+  box-shadow: inset 0 0 20px rgba(255,255,255,0.8), 0 10px 30px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+
+.material-crystal {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,248,255,0.7));
+  backdrop-filter: blur(10px);
+  color: #ced4da;
+  box-shadow: inset 0 0 40px rgba(255,255,255,1), 0 20px 40px rgba(0,0,0,0.1);
+  border: 2px solid rgba(255,255,255,1);
+}
+
+.material-gold-plated {
+  background: linear-gradient(135deg, #ffd700, #daa520);
+  color: #fff8dc;
+  box-shadow: inset 0 0 30px rgba(255,215,0,0.5), 0 10px 30px rgba(218,165,32,0.3);
+}
+
+.preview-icon {
+  font-size: 8rem !important;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.preview-engraving {
+  font-family: "Georgia", serif;
+  font-style: italic;
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.preview-summary h3 {
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.preview-summary p {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Controls */
+.builder-controls {
+  background-color: #fafafa;
+  padding: 3rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.premium-select, .premium-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
+  appearance: none;
+}
+
+.premium-select:focus, .premium-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
+.select-icon {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-text-secondary);
+}
+
+.char-count {
+  position: absolute;
+  right: 1rem;
+  top: 3rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.builder-footer {
+  margin-top: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.price-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.price-label {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+.price-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.builder-btn {
+  transform: translateY(0);
+  background-color: var(--color-accent);
+  color: white;
+}
+
+.builder-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}

@@ -1,0 +1,210 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 85vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f8f9fa; /* Very subtle off-white */
+  padding: 0 2rem;
+}
+
+.hero-content {
+  max-width: 900px;
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-subtitle {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: var(--color-text-secondary);
+}
+
+.hero-title {
+  font-size: 5.5rem;
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.04em;
+  color: var(--color-accent);
+}
+
+.hero-button {
+  display: inline-block;
+  text-decoration: none;
+  background-color: var(--color-accent);
+  color: white;
+  padding: 1rem 3.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-accent);
+}
+
+.hero-button:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+/* Trust Badges */
+.trust-badges {
+  display: flex;
+  justify-content: space-around;
+  padding: 5rem 2rem;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.trust-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  color: var(--color-text-secondary);
+}
+
+.trust-badge-icon {
+  font-size: 2rem;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.trust-badge h4 {
+  font-weight: 500;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trust-badge p {
+  font-size: 0.85rem;
+  max-width: 220px;
+  line-height: 1.6;
+}
+
+/* Product Section */
+.product-section {
+  padding: 8rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.section-header p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 4rem 2rem; /* More vertical breathing room */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .product-section {
+    padding: 4rem 1.5rem;
+  }
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 3rem 1.5rem;
+  }
+}
+
+/* Custom builder CTA (Home) */
+.builder-cta {
+  margin: 4rem 2rem;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+  border-radius: 12px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.builder-cta h2 {
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.builder-cta p {
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.builder-cta__link {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  background-color: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.builder-cta__link:hover {
+  opacity: 0.9;
+}
